@@ -13,5 +13,7 @@
 #include <vector>
 #include <cstring>
 
+using std::cin;
+
 
 #endif /* main_h */
