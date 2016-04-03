@@ -64,5 +64,12 @@ int main(int argc, const char * argv[]) {
 		cout << "False\n";
 	}
 	cout << endl;
+
+
+	//evaluate poly
+	int solution = set2.evaluate(4);
+	cout << solution << endl;
+
+	
     return 0;
 }
