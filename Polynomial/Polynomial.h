@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using std::cout;
 using std::vector;
@@ -33,7 +34,7 @@ public:
 	~poly();
 	//member functions
 	void set_coefs (int, int, int);
-
+	int evaluate (int);
 	//operator overloads
 	//IO
 	friend ostream &operator<< (ostream &stream, const poly &obj); //output
@@ -46,6 +47,8 @@ public:
 	poly operator* (const poly &);
 	//bool check
 	bool operator== (const poly &);
+	//evaluate
+
 private:
 	static char sign (int *);
 	void verify_size ();

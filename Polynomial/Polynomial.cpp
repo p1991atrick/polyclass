@@ -17,7 +17,7 @@ char poly::sign(int *numptr)
 	}
 	else if (*numptr < 0)
 	{
-		return '\0';
+		return '-';
 	}
 	else
 	{
@@ -82,7 +82,7 @@ poly::poly(const poly &obj)
 
 poly::~poly()
 {
-	//delete degree;
+	delete degree;
 }
 
 void poly::set_coefs(int _a, int _b, int _c)
@@ -92,6 +92,25 @@ void poly::set_coefs(int _a, int _b, int _c)
 	polyarray[2] = _c;
 	*degree = 3;
 }
+
+int poly::evaluate(int eval)
+{
+	int x = 0, power = *degree - 1;
+	for (int i=0;i<*degree;i++)
+	{
+		if (power == 0)
+		{
+			x = x + (polyarray[i] * eval);
+		}
+		else
+		{
+			x = x + pow((polyarray[i] * eval), power);
+		}
+		power--;
+	}
+	return x;
+}
+
 
 //IO overloads
 ostream& operator<< (ostream &stream, const poly &obj)
@@ -104,19 +123,19 @@ ostream& operator<< (ostream &stream, const poly &obj)
 		int nextcoef = obj.polyarray[i+1];
 		if (count > 1)
 		{
-			stream << coef << " X^" << count << " " << poly::sign(&nextcoef) << " ";
+			stream << abs(coef) << " X^" << count << " " << poly::sign(&nextcoef) << " ";
 		}
 		else if (count == 1 && obj.polyarray[i+1] != 0)
 		{
-			stream << coef << " X" << " " << poly::sign(&nextcoef) << " ";
+			stream << abs(coef) << " X" << " " << poly::sign(&nextcoef) << " ";
 		}
 		else if (count == 1 && obj.polyarray[i+1] == 0)
 		{
-			stream << coef << " X";
+			stream << abs(coef) << " X";
 		}
 		else if (count == 0 && coef != 0)
 		{
-			stream << coef;
+			stream << abs(coef);
 		}
 		count--;
 	}
