@@ -31,6 +31,8 @@ public:
 	poly(const poly &obj);
 	//destructor
 	~poly();
+	//member functions
+	void set_coefs (int, int, int);
 
 	//operator overloads
 	//IO
@@ -45,7 +47,7 @@ public:
 	//bool check
 	bool operator== (const poly &);
 private:
-	static char sign(int *arrayptr);
-	void verify_size();
+	static char sign (int *);
+	void verify_size ();
 };
 #endif /* Polynomial_h */

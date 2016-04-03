@@ -9,15 +9,15 @@
 #include "Polynomial.h"
 
 //private functions
-char poly::sign(int *arrayptr)
+char poly::sign(int *numptr)
 {
-	if (*arrayptr >= 0)
+	if (*numptr >= 0)
 	{
 		return '+';
 	}
-	else if (*arrayptr < 0)
+	else if (*numptr < 0)
 	{
-		return '-';
+		return '\0';
 	}
 	else
 	{
@@ -73,14 +73,24 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 
 poly::poly(const poly &obj)
 {
-	//*degree = *obj.degree;
-	//for (int i=0; i<*degree; i++)
-	//polyarray[i] = obj.polyarray[i];
+	degree = new int;
+	*degree = *obj.degree;
+	polyarray.resize(*degree);
+	for (int i=0; i<*degree; i++)
+		polyarray[i] = obj.polyarray[i];
 }
 
 poly::~poly()
 {
 	//delete degree;
+}
+
+void poly::set_coefs(int _a, int _b, int _c)
+{
+	polyarray[0] = _a;
+	polyarray[1] = _b;
+	polyarray[2] = _c;
+	*degree = 3;
 }
 
 //IO overloads
@@ -91,17 +101,18 @@ ostream& operator<< (ostream &stream, const poly &obj)
 	for (int i=0;i<x;i++)
 	{
 		int coef = obj.polyarray[i];
+		int nextcoef = obj.polyarray[i+1];
 		if (count > 1)
 		{
-			stream << coef << "X^" << count << " " << poly::sign(&coef) << " ";
+			stream << coef << " X^" << count << " " << poly::sign(&nextcoef) << " ";
 		}
 		else if (count == 1 && obj.polyarray[i+1] != 0)
 		{
-			stream << coef << "X" << " " << poly::sign(&coef) << " ";
+			stream << coef << " X" << " " << poly::sign(&nextcoef) << " ";
 		}
 		else if (count == 1 && obj.polyarray[i+1] == 0)
 		{
-			stream << coef << "X";
+			stream << coef << " X";
 		}
 		else if (count == 0 && coef != 0)
 		{
@@ -113,6 +124,9 @@ ostream& operator<< (ostream &stream, const poly &obj)
 }
 istream& operator>> (istream &stream, poly &obj)
 {
+	//resize array
+	*obj.degree = 3;
+	obj.polyarray.resize(*obj.degree);
 	//ask for number of coeffeciants
 	cout << "X^2: ";
 	stream >> obj.polyarray[0];
@@ -148,7 +162,10 @@ poly poly::operator- (const poly &right)
 {
 	poly temp; //temp class for function
 	for (int i=0;i<*degree;i++)
+	{
 		temp.polyarray[i] = polyarray[i] - right.polyarray[i];
+		*temp.degree = *temp.degree + 1;
+	}
 	return temp;
 }
 
