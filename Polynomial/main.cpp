@@ -2,11 +2,12 @@
 //  main.cpp
 //  Polynomial
 //
-//  Created by Gordon Freeman on 3/29/16.
+//  Created by Patrick Kelly on 3/29/16.
 //  Copyright © 2016 Patrick Kelly. All rights reserved.
 //
 
-#include <iostream>
+
+#include "main.h"
 
 int main(int argc, const char * argv[]) {
 	// insert code here...
