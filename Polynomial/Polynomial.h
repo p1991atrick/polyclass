@@ -34,18 +34,18 @@ public:
 
 	//operator overloads
 	//IO
-	friend ostream& operator<< (ostream &stream, const poly &obj); //output
-	friend istream& operator>> (istream &stream, poly &obj); //input
+	friend ostream &operator<< (ostream &stream, const poly &obj); //output
+	friend istream &operator>> (istream &stream, poly &obj); //input
 	//equals
 	poly operator= (const poly &right);
 	//math
 	poly operator+ (const poly &);
 	poly operator- (const poly &);
 	poly operator* (const poly &);
-
+	//bool check
+	bool operator== (const poly &);
 private:
 	static char sign(int *arrayptr);
-	void add_degree(int _letter);
-
+	void verify_size();
 };
 #endif /* Polynomial_h */
