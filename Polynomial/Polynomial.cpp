@@ -5,10 +5,32 @@
 //  Created by Patrick Kelly on 3/30/16.
 //  Copyright © 2016 Patrick Kelly. All rights reserved.
 //
+/* -----------------------------------------------------------------------------
 
+ FILE:              Polynomial.cpp
+
+ DESCRIPTION:       class implemntation file
+
+ COMPILER:          GNU++11
+
+ NOTES:             Put other information here ...
+
+ MODIFICATION HISTORY:
+
+ Author                  Date               Version
+ ---------------         ----------         --------------
+ Patrick Kelly			 2016-1-04			X.X (git source control)
+
+ ----------------------------------------------------------------------------- */
 #include "Polynomial.h"
 
 //private functions
+/* -----------------------------------------------------------------------------
+ FUNCTION:          sign(int *)
+ DESCRIPTION:       determins if given number is positive or negitive
+ RETURNS:           char
+ NOTES:
+ ----------------------------------------------------------------------------- */
 char poly::sign(int *numptr)
 {
 	if (*numptr >= 0)
@@ -24,6 +46,13 @@ char poly::sign(int *numptr)
 		return '=';
 	}
 }
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          verify_size()
+ DESCRIPTION:		resizes the vector size as needed
+ RETURNS:           void
+ NOTES:
+ ----------------------------------------------------------------------------- */
 void poly::verify_size()
 {
 	if (*degree != int(polyarray.size()))
@@ -32,7 +61,12 @@ void poly::verify_size()
 	}
 }
 
-
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly()
+ DESCRIPTION:       default constructor
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly::poly()
 {
 	polyarray.resize(3);
@@ -43,6 +77,12 @@ poly::poly()
 	*degree=0;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly(int X6)
+ DESCRIPTION:       overloaded constructor
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 {
 	degree = new int;
@@ -71,6 +111,12 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 	}
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly()
+ DESCRIPTION:       copy constructor
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly::poly(const poly &obj)
 {
 	degree = new int;
@@ -80,11 +126,23 @@ poly::poly(const poly &obj)
 		polyarray[i] = obj.polyarray[i];
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly()
+ DESCRIPTION:       destructor
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly::~poly()
 {
 	delete degree;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          set_coefs(int X3)
+ DESCRIPTION:       sets the three default coefecients
+ RETURNS:           void
+ NOTES:
+ ----------------------------------------------------------------------------- */
 void poly::set_coefs(int _a, int _b, int _c)
 {
 	polyarray[0] = _a;
@@ -93,6 +151,12 @@ void poly::set_coefs(int _a, int _b, int _c)
 	*degree = 3;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          evaluate(int)
+ DESCRIPTION:       evaluates the polynomial at the given number
+ RETURNS:           int
+ NOTES:
+ ----------------------------------------------------------------------------- */
 int poly::evaluate(int eval)
 {
 	int x = 0, power = *degree - 1;
@@ -111,8 +175,14 @@ int poly::evaluate(int eval)
 	return x;
 }
 
-
 //IO overloads
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator <<
+ DESCRIPTION:       overload for ostream
+ RETURNS:           stream
+ NOTES:
+ ----------------------------------------------------------------------------- */
 ostream& operator<< (ostream &stream, const poly &obj)
 {
 	int x = *obj.degree;
@@ -141,6 +211,13 @@ ostream& operator<< (ostream &stream, const poly &obj)
 	}
 	return stream;
 }
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator >>
+ DESCRIPTION:       overloads istream
+ RETURNS:           stream
+ NOTES:
+ ----------------------------------------------------------------------------- */
 istream& operator>> (istream &stream, poly &obj)
 {
 	//resize array
@@ -157,6 +234,13 @@ istream& operator>> (istream &stream, poly &obj)
 }
 
 //math overloads
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator =
+ DESCRIPTION:       overloads =
+ RETURNS:           poly class
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly poly::operator= (const poly &right)
 {
 	*degree = *right.degree;
@@ -168,6 +252,12 @@ poly poly::operator= (const poly &right)
 	return *this;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator +
+ DESCRIPTION:       overloads +
+ RETURNS:           poly class
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly poly::operator+ (const poly &right)
 {
 	poly temp; //temp class for function
@@ -177,6 +267,12 @@ poly poly::operator+ (const poly &right)
 	return temp;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator -
+ DESCRIPTION:       overloads -
+ RETURNS:           poly class
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly poly::operator- (const poly &right)
 {
 	poly temp; //temp class for function
@@ -188,6 +284,12 @@ poly poly::operator- (const poly &right)
 	return temp;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator *
+ DESCRIPTION:       overloads *
+ RETURNS:           poly class
+ NOTES:
+ ----------------------------------------------------------------------------- */
 poly poly::operator* (const poly &right)
 {
 	int a,b,c,d,e;
@@ -200,6 +302,12 @@ poly poly::operator* (const poly &right)
 	return temp;
 }
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          operator ==
+ DESCRIPTION:       overloads ==
+ RETURNS:           bool
+ NOTES:
+ ----------------------------------------------------------------------------- */
 bool poly::operator== (const poly &right)
 {
 	if (*degree != *right.degree)

@@ -5,11 +5,33 @@
 //  Created by Patrick Kelly on 3/29/16.
 //  Copyright © 2016 Patrick Kelly. All rights reserved.
 //
+/* -----------------------------------------------------------------------------
 
+ FILE:              main.cpp
+
+ DESCRIPTION:       driver for poly class
+
+ COMPILER:          GNU++11
+
+ NOTES:             Put other information here ...
+
+ MODIFICATION HISTORY:
+
+ Author                  Date               Version
+ ---------------         ----------         --------------
+ Patrick Kelly			 2016-1-04			X.X (git source control)
+
+ ----------------------------------------------------------------------------- */
 
 #include "main.h"
 #include "Polynomial.h"
 
+/* -----------------------------------------------------------------------------
+ FUNCTION:          main()
+ DESCRIPTION:       driver for poly class
+ RETURNS:           0
+ NOTES:
+ ----------------------------------------------------------------------------- */
 int main(/*int argc, const char * argv[]*/) {
 
 	poly set4;

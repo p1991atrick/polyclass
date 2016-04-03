@@ -5,7 +5,23 @@
 //  Created by Patrick Kelly on 3/30/16.
 //  Copyright © 2016 Patrick Kelly. All rights reserved.
 //
+/* -----------------------------------------------------------------------------
 
+ FILE:              Polynomial.h
+
+ DESCRIPTION:       header file for poly class
+
+ COMPILER:          GNU++11
+
+ NOTES:             Put other information here ...
+
+ MODIFICATION HISTORY:
+
+ Author                  Date               Version
+ ---------------         ----------         --------------
+ Patrick Kelly			 2016-1-04			X.X (git source control)
+
+ ----------------------------------------------------------------------------- */
 #ifndef Polynomial_h
 #define Polynomial_h
 
