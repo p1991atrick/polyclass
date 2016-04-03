@@ -13,7 +13,7 @@
 #----------------------------------------------------------------------------- */
 
 
-PROGRAM_NAME=bankacct
+PROGRAM_NAME=Polynomial
 
 # source files without extention
 FILE1=main
