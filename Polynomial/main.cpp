@@ -10,7 +10,7 @@
 #include "main.h"
 #include "Polynomial.h"
 
-int main(int argc, const char * argv[]) {
+int main(/*int argc, const char * argv[]*/) {
 
 	poly set4;
 	poly set2(5, 3, 6);

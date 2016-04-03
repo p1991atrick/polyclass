@@ -26,7 +26,7 @@ char poly::sign(int *numptr)
 }
 void poly::verify_size()
 {
-	if (*degree != polyarray.size())
+	if (*degree != int(polyarray.size()))
 	{
 		polyarray.resize(*degree);
 	}
