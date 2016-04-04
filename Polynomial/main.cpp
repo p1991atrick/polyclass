@@ -22,8 +22,13 @@
  Patrick Kelly			 2016-1-04			X.X (git source control)
 
  ----------------------------------------------------------------------------- */
+//header files
+#include <iostream>
+#include <vector>
+#include <cstring>
 
-#include "main.h"
+//personal header files
+#include "My_Macros.h"
 #include "Polynomial.h"
 
 /* -----------------------------------------------------------------------------
