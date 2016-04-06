@@ -44,15 +44,15 @@ public:
 		//constructors
 	poly();
 	poly(int _a, int _b, int _c, int _d = 999, int _e = 999, int _f = 999);//for standard numbers
-	poly(int *array, int n);	//for arrays
-	poly(vector<int> *array);	//for vectors
+	poly(const int *array, int n);	//for arrays
+	poly(const vector<int> *array);	//for vectors
 		//copy
 	poly(const poly &obj);
 		//destructor
 	~poly();
 		//member functions
-	void set_coefs (int, int, int);
-	int evaluate (int) const;
+	void set_coefs (int, int, int, int _d =999);
+	double evaluate (const int) const;
 		//operator overloads
 	//IO
 	friend ostream &operator<< (ostream &stream, const poly &obj); //output
