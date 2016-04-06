@@ -61,7 +61,13 @@ int main(/*int argc, const char * argv[]*/) {
 
 	cout << "Test add" << endl << "(" << set2 << ") + (" << set3 << ") =\n";
 	set1 = set2 + set3;
-	cout << set1 << endl << endl;
+	cout << set1 << endl;
+	cout << "Test add" << endl << "(" << set3 << ") + (" << set5 << ") =\n";
+	set1 = set3 + set5;
+	cout << set1 << endl;
+	cout << "Test add" << endl << "(" << set6 << ") + (" << set4 << ") =\n";
+	set1 = set6 + set4;
+	cout << set1 << endl;
 
 	cout << "Test multiply" << endl << "(" << set2 << ") * (" << set3 << ") =\n";
 	set1 = set2 * set3;
@@ -69,8 +75,8 @@ int main(/*int argc, const char * argv[]*/) {
 
 
 	//test cin
-//	cin >> set1;
-//	cout << set1 << endl << endl;
+	cin >> set1;
+	cout << set1 << endl << endl;
 
 	//test subtraction
 	cout << "Test subtraction" << endl << "(" << set2 << ") - (" << set5 << ") =\n";

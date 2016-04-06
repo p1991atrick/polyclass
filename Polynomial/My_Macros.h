@@ -42,7 +42,7 @@ using std::ios;
 //clear screen for unix/linux
 #define CLEAR_SCREEN system("clear");
 
-//press anykey to continue POSIX
+//press anykey to continue POSIX (Bash)
 #define AKTC system("read -p \"Press Enter to continue...\"")
 
 //array size calculation    total bytes/bytes of 0 location
