@@ -222,25 +222,32 @@ ostream& operator<< (ostream &stream, const poly &obj)
 {
 	int x = *obj.degree;
 	int count = x-1;
-	for (int i=0;i<x;i++)
+	int tempnext = obj.polyarray[1];	//show first value without abs() function
+	stream << obj.polyarray[0] << "X^" << count << " " << poly::sign(&tempnext) << " ";
+	count--;
+
+	for (int i=1;i<x;i++) //loop until end of vector
 	{
 		int coef = obj.polyarray[i];
 		int nextcoef = obj.polyarray[i+1];
-		if (count > 1)
+		if (coef != 0)
 		{
-			stream << abs(coef) << " X^" << count << " " << poly::sign(&nextcoef) << " ";
-		}
-		else if (count == 1 && obj.polyarray[i+1] != 0)
-		{
-			stream << abs(coef) << " X" << " " << poly::sign(&nextcoef) << " ";
-		}
-		else if (count == 1 && obj.polyarray[i+1] == 0)
-		{
-			stream << abs(coef) << " X";
-		}
-		else if (count == 0 && coef != 0)
-		{
-			stream << abs(coef);
+			if (count > 1)
+			{
+				stream << abs(coef) << "X^" << count << " " << poly::sign(&nextcoef) << " ";
+			}
+			else if (count == 1 && obj.polyarray[i+1] != 0)
+			{
+				stream << abs(coef) << "X" << " " << poly::sign(&nextcoef) << " ";
+			}
+			else if (count == 1 && obj.polyarray[i+1] == 0)
+			{
+				stream << abs(coef) << "X";
+			}
+			else if (count == 0 && coef != 0)
+			{
+				stream << abs(coef);
+			}
 		}
 		count--;
 	}
@@ -256,15 +263,17 @@ ostream& operator<< (ostream &stream, const poly &obj)
 istream& operator>> (istream &stream, poly &obj)
 {
 	//resize array
-	*obj.degree = 3;
+	*obj.degree = 4;
 	obj.polyarray.resize(*obj.degree);
 	//ask for number of coeffeciants
-	cout << "X^2: ";
+	cout << "X^3: ";
 	stream >> obj.polyarray[0];
-	cout << "X: ";
+	cout << "X^2: ";
 	stream >> obj.polyarray[1];
-	cout << "Constaint: ";
+	cout << "X: ";
 	stream >> obj.polyarray[2];
+	cout << "Constaint: ";
+	stream >> obj.polyarray[3];
 	return stream;
 }
 
@@ -295,11 +304,45 @@ poly poly::operator= (const poly &right)
  ----------------------------------------------------------------------------- */
 poly poly::operator+ (const poly &right)
 {
-	poly temp; //temp class for function
-	for (int i=0;i<*degree;i++)
-		temp.polyarray[i] = polyarray[i] + right.polyarray[i];
-	*temp.degree = *degree;
-	return temp;
+	vector<int> temp = {0}; //temp class for function
+	if (*right.degree > *degree)
+	{
+		temp.resize(*right.degree);
+		for (int i=0;i<*right.degree;i++)
+		{
+			temp[i] = right.polyarray[i];
+		}
+		int j=0, x=*right.degree-*degree;
+		for (int i=*degree-1;i>-1;i--)
+		{
+			temp.at(temp.size()-(j+1)) = ((right.polyarray.at(i+x) + (polyarray.at(i))));
+			j++;
+		}
+	}
+	else if (*degree > *right.degree)
+	{
+		temp.resize(*degree);
+		for (int i=0;i<*degree;i++)
+		{
+			temp[i] = polyarray[i];
+		}
+		int j=0, x=*degree-*right.degree;
+		for (int i=*right.degree-1;i>-1;i--)
+		{
+			temp.at(temp.size()-(j+1)) = ((polyarray.at(i+x) + (right.polyarray.at(i))));
+			j++;
+		}
+	}
+	else if (*degree == *right.degree)
+	{
+		temp.resize(*degree);
+		for (int i=0;i<*degree;i++)
+		{
+			temp[i] = polyarray[i] + right.polyarray[i];
+		}
+	}
+	poly returnable(&temp);
+	return returnable;
 }
 
 /* -----------------------------------------------------------------------------
@@ -337,6 +380,13 @@ poly poly::operator- (const poly &right)
 		{
 			temp.at(temp.size()-(j+1)) = ((polyarray.at(i+x) - (right.polyarray.at(i))));
 			j++;
+		}
+	}
+	else if (*degree == *right.degree)
+	{
+		for (int i=0;i<*degree;i++)
+		{
+			temp[i] = polyarray[i] + right.polyarray[i];
 		}
 	}
 	poly returnable(&temp);
