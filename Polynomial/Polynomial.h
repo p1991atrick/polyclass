@@ -52,7 +52,7 @@ public:
 	~poly();
 		//member functions
 	void set_coefs (int, int, int);
-	int evaluate (int);
+	int evaluate (int) const;
 		//operator overloads
 	//IO
 	friend ostream &operator<< (ostream &stream, const poly &obj); //output
@@ -67,7 +67,7 @@ public:
 	bool operator== (const poly &);
 
 private:
-	static char sign (int *); //for ostream overload
+	static char sign (int *) ; //for ostream overload
 	void verify_size (); //resizes vector size if needed. 
 };
 #endif /* Polynomial_h */

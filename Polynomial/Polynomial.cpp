@@ -192,7 +192,7 @@ void poly::set_coefs(int _a, int _b, int _c)
  RETURNS:           int
  NOTES:
  ----------------------------------------------------------------------------- */
-int poly::evaluate(int eval)
+int poly::evaluate(int eval) const
 {
 	int x = 0, power = *degree - 1;
 	for (int i=0;i<*degree;i++)
@@ -401,20 +401,36 @@ poly poly::operator- (const poly &right)
  ----------------------------------------------------------------------------- */
 poly poly::operator* (const poly &right)
 {
-//	vector<int> temparray;
-//	temparray.resize(pow(*right.degree,2)); //
-//	for (int i=0;i<temparray.size();i++)
-//	{
-//		temparray[i] = temparray[i] +(polyarray[i]*right.polyarray[i]);
-//	}
-	int array[5];
-	array[0] = polyarray[0] * right.polyarray[0]; //x^4
-	array[1] = (polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]);//x^3
-	array[2] = (polyarray[0] * right.polyarray[2]) + (polyarray[1] * right.polyarray[1]) + (polyarray[2] * right.polyarray[0]);//X^2
-	array[3] = (polyarray[1] * right.polyarray[2]) + (polyarray[2] * right.polyarray[1]);//X
-	array[4] = (polyarray[2] * right.polyarray[2]);//constaint
-//temparray.shrink_to_fit();
-	poly temp(array, 5);
+	vector<int> array;
+	if (*degree == *right.degree && *degree == 2)
+	{
+		array.push_back(polyarray[0] * right.polyarray[0]); //x^2
+		array.push_back((polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]));	//x
+		array.push_back(polyarray[1] * right.polyarray[1]);
+	}
+	else if (*degree == *right.degree && *degree == 3)
+	{
+		array.push_back(polyarray[0] * right.polyarray[0]); //x^4
+		array.push_back((polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]));//x^3
+		array.push_back((polyarray[0] * right.polyarray[2]) + (polyarray[1] * right.polyarray[1]) + (polyarray[2] * right.polyarray[0]));//X^2
+		array.push_back((polyarray[1] * right.polyarray[2]) + (polyarray[2] * right.polyarray[1]));//X
+		array.push_back((polyarray[2] * right.polyarray[2]));//constaint
+	}
+	else if (*degree == *right.degree && *degree == 4)
+	{
+		array.push_back(polyarray[0] * right.polyarray[0]); //x^9
+		array.push_back(0);									//x^8
+		array.push_back(0);									//x^7
+		array.push_back((polyarray[0] * right.polyarray[1])+ (polyarray[1] * right.polyarray[0])); //x^6
+		array.push_back(0);									//x^5
+		array.push_back(polyarray[1] * right.polyarray[1]);	//x^4
+		array.push_back((polyarray[0] * right.polyarray[2]) + (polyarray[0] * right.polyarray[3]) + (polyarray[2] * right.polyarray[0]) + (polyarray[3] * right.polyarray[0]));//x^3
+		array.push_back((polyarray[1] * right.polyarray[2]) + (polyarray[1] * right.polyarray[3]) + (polyarray[2] * right.polyarray[1]) + (polyarray[3] * right.polyarray[1]));//X^2
+		array.push_back((polyarray[2] * right.polyarray[2]) + (polyarray[2] * right.polyarray[3]) + (polyarray[3] * right.polyarray[2]));//X
+		array.push_back((polyarray[3] * right.polyarray[3]));//constaint
+	}
+
+	poly temp(&array);
 	return temp;
 }
 
