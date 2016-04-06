@@ -61,6 +61,7 @@ void poly::verify_size()
 	}
 }
 
+//constructors
 /* -----------------------------------------------------------------------------
  FUNCTION:          poly()
  DESCRIPTION:       default constructor
@@ -74,7 +75,7 @@ poly::poly()
 	polyarray[1] = 0;
 	polyarray[2] = 0;
 	degree = new int;
-	*degree=0;
+	*degree = 3;
 }
 
 /* -----------------------------------------------------------------------------
@@ -108,6 +109,40 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 		*degree = 6;
 		polyarray.resize(*degree);
 		polyarray[5] = _f;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly(int for array, int for array size)
+ DESCRIPTION:       overloaded constructor for passing in arrays
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
+poly::poly (int *array, int n)
+{
+	degree = new int;
+	*degree = n;
+	polyarray.resize(*degree);
+	for (int i=0;i<*degree;i++)
+	{
+		polyarray[i] = array[i];
+	}
+}
+
+/* -----------------------------------------------------------------------------
+ FUNCTION:          poly(vector<int>)
+ DESCRIPTION:       overloaded constructor for passing in vectors
+ RETURNS:           none
+ NOTES:
+ ----------------------------------------------------------------------------- */
+poly::poly (vector<int> *array)
+{
+	degree = new int;
+	*degree = int(array->size());
+	polyarray.resize(*degree);
+	for (int i=0;i<*degree;i++)
+	{
+		polyarray[i] = array->at(i);
 	}
 }
 
@@ -275,13 +310,37 @@ poly poly::operator+ (const poly &right)
  ----------------------------------------------------------------------------- */
 poly poly::operator- (const poly &right)
 {
-	poly temp; //temp class for function
-	for (int i=0;i<*degree;i++)
+	vector<int> temp = {0}; //temp class for function
+	if (*right.degree > *degree)
 	{
-		temp.polyarray[i] = polyarray[i] - right.polyarray[i];
-		*temp.degree = *temp.degree + 1;
+		temp.resize(*right.degree);
+		for (int i=0;i<*right.degree;i++)
+		{
+			temp[i] = right.polyarray[i];
+		}
+		int j=0, x=*right.degree-*degree;
+		for (int i=*degree-1;i>-1;i--)
+		{
+			temp.at(temp.size()-(j+1)) = ((right.polyarray.at(i+x) - (polyarray.at(i))));
+			j++;
+		}
 	}
-	return temp;
+	else if (*degree > *right.degree)
+	{
+		temp.resize(*degree);
+		for (int i=0;i<*degree;i++)
+		{
+			temp[i] = polyarray[i];
+		}
+		int j=0, x=*degree-*right.degree;
+		for (int i=*right.degree-1;i>-1;i--)
+		{
+			temp.at(temp.size()-(j+1)) = ((polyarray.at(i+x) - (right.polyarray.at(i))));
+			j++;
+		}
+	}
+	poly returnable(&temp);
+	return returnable;
 }
 
 /* -----------------------------------------------------------------------------
@@ -292,13 +351,20 @@ poly poly::operator- (const poly &right)
  ----------------------------------------------------------------------------- */
 poly poly::operator* (const poly &right)
 {
-	int a,b,c,d,e;
-	a = polyarray[0] * right.polyarray[0]; //x^4
-	b = (polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]);//x^3
-	c = (polyarray[0] * right.polyarray[2]) + (polyarray[1] * right.polyarray[1]) + (polyarray[2] * right.polyarray[0]);//X^2
-	d = (polyarray[1] * right.polyarray[2]) + (polyarray[2] * right.polyarray[1]);//X
-	e = (polyarray[2] * right.polyarray[2]);//constaint
-	poly temp(a, b, c, d, e);
+//	vector<int> temparray;
+//	temparray.resize(pow(*right.degree,2)); //
+//	for (int i=0;i<temparray.size();i++)
+//	{
+//		temparray[i] = temparray[i] +(polyarray[i]*right.polyarray[i]);
+//	}
+	int array[5];
+	array[0] = polyarray[0] * right.polyarray[0]; //x^4
+	array[1] = (polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]);//x^3
+	array[2] = (polyarray[0] * right.polyarray[2]) + (polyarray[1] * right.polyarray[1]) + (polyarray[2] * right.polyarray[0]);//X^2
+	array[3] = (polyarray[1] * right.polyarray[2]) + (polyarray[2] * right.polyarray[1]);//X
+	array[4] = (polyarray[2] * right.polyarray[2]);//constaint
+//temparray.shrink_to_fit();
+	poly temp(array, 5);
 	return temp;
 }
 

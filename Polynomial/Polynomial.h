@@ -41,17 +41,19 @@ class poly
 	vector<int> polyarray;
 	int *degree;
 public:
-	//constructors
+		//constructors
 	poly();
-	poly(int _a, int _b, int _c, int _d = 999, int _e = 999, int _f = 999);
-	//copy
+	poly(int _a, int _b, int _c, int _d = 999, int _e = 999, int _f = 999);//for standard numbers
+	poly(int *array, int n);	//for arrays
+	poly(vector<int> *array);	//for vectors
+		//copy
 	poly(const poly &obj);
-	//destructor
+		//destructor
 	~poly();
-	//member functions
+		//member functions
 	void set_coefs (int, int, int);
 	int evaluate (int);
-	//operator overloads
+		//operator overloads
 	//IO
 	friend ostream &operator<< (ostream &stream, const poly &obj); //output
 	friend istream &operator>> (istream &stream, poly &obj); //input
@@ -63,10 +65,9 @@ public:
 	poly operator* (const poly &);
 	//bool check
 	bool operator== (const poly &);
-	//evaluate
 
 private:
-	static char sign (int *);
-	void verify_size ();
+	static char sign (int *); //for ostream overload
+	void verify_size (); //resizes vector size if needed. 
 };
 #endif /* Polynomial_h */
