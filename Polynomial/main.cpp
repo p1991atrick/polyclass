@@ -37,15 +37,15 @@
  RETURNS:           0
  NOTES:
  ----------------------------------------------------------------------------- */
-int main(/*int argc, const char * argv[]*/) {
-
-	poly *set4;
-	set4 = new poly;
-	poly set2(5, 3, 6);
+int main(/*int argc, const char * argv[]*/)
+{
+	poly set2(5, 3);
 	poly *set3;
 	set3 = new poly;
 	set3->set_coefs(3, -9, 1);
 	poly set1 = *set3;
+	poly *set4;
+	set4 = new poly;
 	set4->set_coefs(-2, 4,-1);
 	//polynomial of any length
 	const int size = 4;
@@ -63,10 +63,10 @@ int main(/*int argc, const char * argv[]*/) {
 	/*skip line*/
 	cout << endl << endl;
 
-	cout << "Test add" << endl << "(" << set2 << ") + (" << set3 << ") =\n";
+	cout << "Test add" << endl << "(" << set2 << ") + (" << *set3 << ") =\n";
 	set1 = set2 + *set3;
 	cout << set1 << endl;
-	cout << "Test add" << endl << "(" << set3 << ") + (" << set5 << ") =\n";
+	cout << "Test add" << endl << "(" << *set3 << ") + (" << set5 << ") =\n";
 	set1 = *set3 + set5;
 	cout << set1 << endl;
 	cout << "Test add" << endl << "(" << set6 << ") + (" << *set4 << ") =\n";
@@ -82,8 +82,8 @@ int main(/*int argc, const char * argv[]*/) {
 
 
 	//test cin
-	cin >> set1;
-	cout << set1 << endl << endl;
+//	cin >> set1;
+//	cout << set1 << endl << endl;
 
 	//test subtraction
 	cout << "Test subtraction" << endl << "(" << set2 << ") - (" << set5 << ") =\n";
@@ -119,7 +119,7 @@ int main(/*int argc, const char * argv[]*/) {
 
 	//evaluate polynomial
 	cout << "Set2 = " << "(" << set2 << ")\n"  << "evaluated at 4 = " << set2.evaluate(4) << endl << endl;
-	cout << "Set5 evaluated at 2 = " << set5.evaluate(2) << endl << endl;
+	cout << "Set5 = " << "(" << set5 << ")\n"  << "evaluated at 2 = " << set5.evaluate(2) << endl << endl;
 
 	delete set3;
 	delete set4;
