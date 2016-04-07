@@ -46,7 +46,7 @@ int main(/*int argc, const char * argv[]*/)
 	poly set1 = *set3;
 	poly *set4;
 	set4 = new poly;
-	set4->set_coefs(-2, 4,-1);
+	set4->set_coefs(-2, 4,-1,-3);
 	//polynomial of any length
 	const int size = 4;
 	int array[size] = {4,-3,2,-6};
@@ -82,8 +82,8 @@ int main(/*int argc, const char * argv[]*/)
 
 
 	//test cin
-//	cin >> set1;
-//	cout << set1 << endl << endl;
+	cin >> set1;
+	cout << set1 << endl << endl;
 
 	//test subtraction
 	cout << "Test subtraction" << endl << "(" << set2 << ") - (" << set5 << ") =\n";
