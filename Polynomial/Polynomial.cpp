@@ -86,7 +86,10 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 	degree = new int;
 	polyarray.push_back(_a);
 	polyarray.push_back(_b);
-	polyarray.push_back(_c);
+	if (_c != 999)
+	{
+		polyarray.push_back(_c);
+	}
 	if (_d != 999)
 	{
 		polyarray.push_back(_d);
@@ -128,7 +131,7 @@ poly::poly (const int *array, int n)
 poly::poly (const vector<int> *array)
 {
 	degree = new int;
-	*degree = int(array->size());
+	*degree = int((*array).size());
 	polyarray.resize(*degree);
 	for (int i=0;i<*degree;i++)
 	{
@@ -282,7 +285,7 @@ istream& operator>> (istream &stream, poly &obj)
 poly poly::operator= (const poly &right)
 {
 	*degree = *right.degree;
-	verify_size();
+	polyarray.resize(*right.degree);
 	for (int i=0;i<*degree;i++)
 	{
 		polyarray[i] = right.polyarray[i];
@@ -395,35 +398,50 @@ poly poly::operator- (const poly &right)
  ----------------------------------------------------------------------------- */
 poly poly::operator* (const poly &right)
 {
+	int x,y;
+	if (*degree < *right.degree)  //finds biggest degree and makes that y
+	{
+		x=*degree-1;
+		y=*right.degree-1;
+	}
+	else if (*degree > *right.degree)
+	{
+		y=*degree-1;
+		x=*right.degree-1;
+	}
+	else	//for if equal
+	{
+		x=*degree-1;
+		y=*right.degree-1;
+	}	//create 2 2d arrays for solution and degree markings
+	int exp[9][9] = {{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000}};
+	int darray[9][9] = {{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000}};
 	vector<int> array;
-	if (*degree == *right.degree && *degree == 2)
+	for (int i=0;i<x+1;i++)	//for loops calculate every 'square' for darray
 	{
-		array.push_back(polyarray[0] * right.polyarray[0]); //x^2
-		array.push_back((polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]));	//x
-		array.push_back(polyarray[1] * right.polyarray[1]);
+		for (int j=0;j<y+1;j++)
+		{
+			darray[i][j] = (polyarray.at(i) * right.polyarray.at(j));
+			exp[i][j] = (y-j)+(x-i);	//exponate level of calculated number
+		}
 	}
-	else if (*degree == *right.degree && *degree == 3)
-	{
-		array.push_back(polyarray[0] * right.polyarray[0]); //x^4
-		array.push_back((polyarray[1] * right.polyarray[0]) + (polyarray[0] * right.polyarray[1]));//x^3
-		array.push_back((polyarray[0] * right.polyarray[2]) + (polyarray[1] * right.polyarray[1]) + (polyarray[2] * right.polyarray[0]));//X^2
-		array.push_back((polyarray[1] * right.polyarray[2]) + (polyarray[2] * right.polyarray[1]));//X
-		array.push_back((polyarray[2] * right.polyarray[2]));//constaint
-	}
-	else if (*degree == *right.degree && *degree == 4)
-	{
-		array.push_back(polyarray[0] * right.polyarray[0]); //x^9
-		array.push_back(0);									//x^8
-		array.push_back(0);									//x^7
-		array.push_back((polyarray[0] * right.polyarray[1])+ (polyarray[1] * right.polyarray[0])); //x^6
-		array.push_back(0);									//x^5
-		array.push_back(polyarray[1] * right.polyarray[1]);	//x^4
-		array.push_back((polyarray[0] * right.polyarray[2]) + (polyarray[0] * right.polyarray[3]) + (polyarray[2] * right.polyarray[0]) + (polyarray[3] * right.polyarray[0]));//x^3
-		array.push_back((polyarray[1] * right.polyarray[2]) + (polyarray[1] * right.polyarray[3]) + (polyarray[2] * right.polyarray[1]) + (polyarray[3] * right.polyarray[1]));//X^2
-		array.push_back((polyarray[2] * right.polyarray[2]) + (polyarray[2] * right.polyarray[3]) + (polyarray[3] * right.polyarray[2]));//X
-		array.push_back((polyarray[3] * right.polyarray[3]));//constaint
-	}
-
+	int count = 0;
+	int z = exp[0][0]; //load biggest exponent as starting point
+	do{
+		for (int i=0;i<x+1;i++) //same loop
+		{
+			for (int j=0;j<y+1;j++)
+			{
+				if (exp[i][j] == z) //if the exponent related to the darray number is the same add them into the next slot in the vector
+				{
+					array.resize(count+1);
+					array[count] += (darray[i][j]);
+				}
+			}
+		}
+		z--;	//go down one exponent level
+		count++;	// increase vector location by one
+	}while (z>-1); // loop until exponent level is -1, last possible is 0 for the constaint
 	poly temp(&array);
 	return temp;
 }

@@ -43,7 +43,7 @@ class poly
 public:
 		//constructors
 	poly();
-	poly(int _a, int _b, int _c, int _d = 999, int _e = 999, int _f = 999);//for standard numbers
+	poly(int _a, int _b, int _c = 999, int _d = 999, int _e = 999, int _f = 999);//for standard numbers
 	poly(const int *array, int n);	//for arrays
 	poly(const vector<int> *array);	//for vectors
 		//copy
