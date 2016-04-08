@@ -13,7 +13,7 @@
 
  COMPILER:          GNU++11
 
- NOTES:             Put other information here ...
+ NOTES:             
 
  MODIFICATION HISTORY:
 
@@ -54,11 +54,13 @@ int main(/*int argc, const char * argv[]*/)
 	vector<int> array_b = {-3,-5,6,3};
 	poly set6(&array_b);
 
+	poly *set10 = &set5;
+
 	cout << "Set1: " << set1 << endl;	// always changing
 	cout << "Set2: " << set2 << endl;
 	cout << "Set3: " << *set3 << endl;
 	cout << "Set4: " << *set4 << endl;
-	cout << "Set5: " << set5 << endl;
+	cout << "Set5: " << *set10 << endl;
 	cout << "Set6: " << set6 << endl;
 	/*skip line*/
 	cout << endl << endl;
