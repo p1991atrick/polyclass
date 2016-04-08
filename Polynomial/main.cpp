@@ -78,7 +78,7 @@ int main(/*int argc, const char * argv[]*/)
 	cout << "Test multiply" << endl << "(" << set2 << ") * (" << *set3 << ") =\n";
 	set1 = set2 * (*set3);
 	cout << set1 << endl << endl;
-	cout << "Test multiply" << endl << "(" << set5 << ") * (" << set6 << ") =\n";
+	cout << "Test multiply" << endl << "(" << *set10 << ") * (" << set6 << ") =\n";
 	set1 = set5 * set6;
 	cout << set1 << endl << endl;
 
