@@ -24,8 +24,6 @@
  ----------------------------------------------------------------------------- */
 //header files
 #include <iostream>
-#include <vector>
-#include <cstring>
 
 //personal header files
 #include "My_Macros.h"

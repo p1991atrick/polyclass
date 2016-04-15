@@ -219,32 +219,34 @@ ostream& operator<< (ostream &stream, const poly &obj)
 {
 	int x = *obj.degree;
 	int count = x-1;
-	int tempnext = obj.polyarray[1];	//show first value without abs() function
-	stream << obj.polyarray[0] << "X^" << count << " " << poly::sign(&tempnext) << " ";
+	stream << obj.polyarray[0] << "X^" << count << " ";
 	count--;
 
 	for (int i=1;i<x;i++) //loop until end of vector
 	{
 		int coef = obj.polyarray[i];
-		int nextcoef = obj.polyarray[i+1];
 		if (coef != 0)
 		{
 			if (count > 1)
 			{
-				stream << abs(coef) << "X^" << count << " " << poly::sign(&nextcoef) << " ";
+				stream << poly::sign(&coef) << " " << abs(coef) << "X^" << count << " ";
 			}
 			else if (count == 1 && obj.polyarray[i+1] != 0)
 			{
-				stream << abs(coef) << "X" << " " << poly::sign(&nextcoef) << " ";
+				stream << poly::sign(&coef) << " " << abs(coef) << "X" << " ";
 			}
 			else if (count == 1 && obj.polyarray[i+1] == 0)
 			{
-				stream << abs(coef) << "X";
+				stream << poly::sign(&coef) << " " << abs(coef) << "X";
 			}
 			else if (count == 0 && coef != 0)
 			{
-				stream << abs(coef);
+				stream << poly::sign(&coef) << " " << abs(coef);
 			}
+		}
+		else if (coef == 0)
+		{
+
 		}
 		count--;
 	}
