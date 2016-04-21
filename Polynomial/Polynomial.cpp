@@ -47,20 +47,6 @@ char poly::sign(int *numptr)
 	}
 }
 
-/* -----------------------------------------------------------------------------
- FUNCTION:          verify_size()
- DESCRIPTION:		resizes the vector size as needed
- RETURNS:           void
- NOTES:
- ----------------------------------------------------------------------------- */
-void poly::verify_size()
-{
-	if (*degree != int(polyarray.size()))
-	{
-		*degree = int(polyarray.size());
-	}
-}
-
 //constructors
 /* -----------------------------------------------------------------------------
  FUNCTION:          poly()
@@ -71,8 +57,6 @@ void poly::verify_size()
 poly::poly()
 {
 	polyarray.reserve(1);
-	degree = new int;
-	*degree = 0;
 }
 
 /* -----------------------------------------------------------------------------
@@ -83,7 +67,6 @@ poly::poly()
  ----------------------------------------------------------------------------- */
 poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 {
-	degree = new int;
 	polyarray.push_back(_a);
 	polyarray.push_back(_b);
 	if (_c != 999)
@@ -102,7 +85,6 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
 	{
 		polyarray.push_back(_f);
 	}
-	verify_size();
 }
 
 /* -----------------------------------------------------------------------------
@@ -113,10 +95,8 @@ poly::poly(int _a, int _b, int _c, int _d, int _e, int _f)
  ----------------------------------------------------------------------------- */
 poly::poly (const int *array, int n)
 {
-	degree = new int;
-	*degree = n;
-	polyarray.resize(*degree);
-	for (int i=0;i<*degree;i++)
+	polyarray.resize(n);
+	for (int i=0;i<n;i++)
 	{
 		polyarray[i] = array[i];
 	}
@@ -130,10 +110,8 @@ poly::poly (const int *array, int n)
  ----------------------------------------------------------------------------- */
 poly::poly (const vector<int> *array)
 {
-	degree = new int;
-	*degree = int((*array).size());
-	polyarray.resize(*degree);
-	for (int i=0;i<*degree;i++)
+	polyarray.resize(int((*array).size()));
+	for (int i=0;i<int((*array).size());i++)
 	{
 		polyarray[i] = array->at(i);
 	}
@@ -147,10 +125,8 @@ poly::poly (const vector<int> *array)
  ----------------------------------------------------------------------------- */
 poly::poly(const poly &obj)
 {
-	degree = new int;
-	*degree = *obj.degree;
-	polyarray.resize(*degree);
-	for (int i=0; i<*degree; i++)
+	polyarray.resize(obj.polyarray.size());
+	for (int i=0; i<obj.polyarray.size(); i++)
 		polyarray[i] = obj.polyarray[i];
 }
 
@@ -162,7 +138,7 @@ poly::poly(const poly &obj)
  ----------------------------------------------------------------------------- */
 poly::~poly()
 {
-	delete degree;
+
 }
 
 /* -----------------------------------------------------------------------------
@@ -180,7 +156,6 @@ void poly::set_coefs(int _a, int _b, int _c, int _d)
 	{
 		polyarray.push_back(_d);
 	}
-	verify_size();
 }
 
 /* -----------------------------------------------------------------------------
@@ -191,8 +166,8 @@ void poly::set_coefs(int _a, int _b, int _c, int _d)
  ----------------------------------------------------------------------------- */
 double poly::evaluate(const int eval) const
 {
-	int x = 0, power = *degree - 1;
-	for (int i=0;i<*degree;i++)
+	int x = 0, power = int(polyarray.size()) - 1;
+	for (int i=0;i<int(polyarray.size());i++)
 	{
 		if (power == 0)
 		{
@@ -217,7 +192,7 @@ double poly::evaluate(const int eval) const
  ----------------------------------------------------------------------------- */
 ostream& operator<< (ostream &stream, const poly &obj)
 {
-	int x = *obj.degree;
+	int x = int(obj.polyarray.size());
 	int count = x-1;
 	stream << obj.polyarray[0] << "X^" << count << " ";
 	count--;
@@ -262,8 +237,7 @@ ostream& operator<< (ostream &stream, const poly &obj)
 istream& operator>> (istream &stream, poly &obj)
 {
 	//resize array
-	*obj.degree = 4;
-	obj.polyarray.resize(*obj.degree);
+	obj.polyarray.resize(4);
 	//ask for number of coeffeciants
 	cout << "X^3: ";
 	stream >> obj.polyarray[0];
@@ -286,9 +260,8 @@ istream& operator>> (istream &stream, poly &obj)
  ----------------------------------------------------------------------------- */
 poly poly::operator= (const poly &right)
 {
-	*degree = *right.degree;
-	polyarray.resize(*right.degree);
-	for (int i=0;i<*degree;i++)
+	polyarray.resize(int(right.polyarray.size()));
+	for (int i=0;i<int(right.polyarray.size());i++)
 	{
 		polyarray[i] = right.polyarray[i];
 	}
@@ -304,38 +277,38 @@ poly poly::operator= (const poly &right)
 poly poly::operator+ (const poly &right)
 {
 	vector<int> temp = {0}; //temp class for function
-	if (*right.degree > *degree)
+	if (int(right.polyarray.size()) > int(polyarray.size()))
 	{
-		temp.resize(*right.degree);
-		for (int i=0;i<*right.degree;i++)
+		temp.resize(int(right.polyarray.size()));
+		for (int i=0;i<int(right.polyarray.size());i++)
 		{
 			temp[i] = right.polyarray[i];
 		}
-		int j=0, x=*right.degree-*degree;
-		for (int i=*degree-1;i>-1;i--)
+		int j=0, x=int(right.polyarray.size())-int(polyarray.size());
+		for (int i=int(polyarray.size())-1;i>-1;i--)
 		{
 			temp.at(temp.size()-(j+1)) = ((right.polyarray.at(i+x) + (polyarray.at(i))));
 			j++;
 		}
 	}
-	else if (*degree > *right.degree)
+	else if (int(polyarray.size()) > int(right.polyarray.size()))
 	{
-		temp.resize(*degree);
-		for (int i=0;i<*degree;i++)
+		temp.resize(int(polyarray.size()));
+		for (int i=0;i<int(polyarray.size());i++)
 		{
 			temp[i] = polyarray[i];
 		}
-		int j=0, x=*degree-*right.degree;
-		for (int i=*right.degree-1;i>-1;i--)
+		int j=0, x=int(polyarray.size())-int(right.polyarray.size());
+		for (int i=int(right.polyarray.size())-1;i>-1;i--)
 		{
 			temp.at(temp.size()-(j+1)) = ((polyarray.at(i+x) + (right.polyarray.at(i))));
 			j++;
 		}
 	}
-	else if (*degree == *right.degree)
+	else if (int(polyarray.size()) == int(right.polyarray.size()))
 	{
-		temp.resize(*degree);
-		for (int i=0;i<*degree;i++)
+		temp.resize(int(polyarray.size()));
+		for (int i=0;i<int(polyarray.size());i++)
 		{
 			temp[i] = polyarray[i] + right.polyarray[i];
 		}
@@ -353,37 +326,37 @@ poly poly::operator+ (const poly &right)
 poly poly::operator- (const poly &right)
 {
 	vector<int> temp = {0}; //temp class for function
-	if (*right.degree > *degree)
+	if (int(right.polyarray.size()) > int(polyarray.size()))
 	{
-		temp.resize(*right.degree);
-		for (int i=0;i<*right.degree;i++)
+		temp.resize(int(right.polyarray.size()));
+		for (int i=0;i<int(right.polyarray.size());i++)
 		{
 			temp[i] = right.polyarray[i];
 		}
-		int j=0, x=*right.degree-*degree;
-		for (int i=*degree-1;i>-1;i--)
+		int j=0, x=int(right.polyarray.size())-int(polyarray.size());
+		for (int i=int(polyarray.size())-1;i>-1;i--)
 		{
 			temp.at(temp.size()-(j+1)) = ((right.polyarray.at(i+x) - (polyarray.at(i))));
 			j++;
 		}
 	}
-	else if (*degree > *right.degree)
+	else if (int(polyarray.size()) > int(right.polyarray.size()))
 	{
-		temp.resize(*degree);
-		for (int i=0;i<*degree;i++)
+		temp.resize(int(polyarray.size()));
+		for (int i=0;i<int(polyarray.size());i++)
 		{
 			temp[i] = polyarray[i];
 		}
-		int j=0, x=*degree-*right.degree;
-		for (int i=*right.degree-1;i>-1;i--)
+		int j=0, x=int(polyarray.size())-int(right.polyarray.size());
+		for (int i=int(right.polyarray.size())-1;i>-1;i--)
 		{
 			temp.at(temp.size()-(j+1)) = ((polyarray.at(i+x) - (right.polyarray.at(i))));
 			j++;
 		}
 	}
-	else if (*degree == *right.degree)
+	else if (int(polyarray.size()) == int(right.polyarray.size()))
 	{
-		for (int i=0;i<*degree;i++)
+		for (int i=0;i<int(polyarray.size());i++)
 		{
 			temp[i] = polyarray[i] + right.polyarray[i];
 		}
@@ -401,20 +374,20 @@ poly poly::operator- (const poly &right)
 poly poly::operator* (const poly &right)
 {
 	int x,y;
-	if (*degree < *right.degree)  //finds biggest degree and makes that y
+	if (int(polyarray.size()) < int(right.polyarray.size()))  //finds biggest degree and makes that y
 	{
-		x=*degree-1;
-		y=*right.degree-1;
+		x=int(polyarray.size())-1;
+		y=int(right.polyarray.size())-1;
 	}
-	else if (*degree > *right.degree)
+	else if (int(polyarray.size()) > int(right.polyarray.size()))
 	{
-		y=*degree-1;
-		x=*right.degree-1;
+		y=int(polyarray.size())-1;
+		x=int(right.polyarray.size())-1;
 	}
 	else	//for if equal
 	{
-		x=*degree-1;
-		y=*right.degree-1;
+		x=int(polyarray.size())-1;
+		y=int(right.polyarray.size())-1;
 	}	//create 2 2d arrays for solution and degree markings
 	int exp[9][9] = {{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000}};
 	int darray[9][9] = {{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000},{000000000}};
@@ -456,19 +429,19 @@ poly poly::operator* (const poly &right)
  ----------------------------------------------------------------------------- */
 bool poly::operator== (const poly &right)
 {
-	if (*degree != *right.degree)
+	if (int(polyarray.size()) != int(right.polyarray.size()))
 	{
 		return false;
 	}
 	int x = 0;
-	for (int i=0;i<*degree;i++)
+	for (int i=0;i<int(polyarray.size());i++)
 	{
 		if (polyarray[i] == right.polyarray[i])
 		{
 			x++;
 		}
 	}
-	if (x == *degree && x == *right.degree)
+	if (x == int(polyarray.size()) && x == int(right.polyarray.size()))
 	{
 		return true;
 	}

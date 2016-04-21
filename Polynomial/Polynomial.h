@@ -39,7 +39,6 @@ using std::endl;
 class poly
 {
 	vector<int> polyarray;
-	int *degree;
 public:
 		//constructors
 	poly();
@@ -68,6 +67,6 @@ public:
 
 private:
 	static char sign (int *) ; //for ostream overload
-	void verify_size (); //resizes vector size if needed. 
+	
 };
 #endif /* Polynomial_h */
