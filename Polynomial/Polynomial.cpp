@@ -126,7 +126,7 @@ poly::poly (const vector<int> *array)
 poly::poly(const poly &obj)
 {
 	polyarray.resize(obj.polyarray.size());
-	for (int i=0; i<obj.polyarray.size(); i++)
+	for (int i=0; i<int(obj.polyarray.size()); i++)
 		polyarray[i] = obj.polyarray[i];
 }
 
